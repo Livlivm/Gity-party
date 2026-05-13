@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GityParty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <h1 class="logo">GityParty</h1>
+        <button id="abrirFormulario">
+            Cadastrar Evento
+        </button>
+    </header>
+
+    <main>
+
+        <!-- EVENTOS -->
+        <section class="eventos">
+            <div class="titulo-section">
+                <h2>Eventos Disponíveis</h2>
+            </div>
+            <div id="lista-eventos" class="grid-eventos">
+            </div>
+        </section>
+
+    
+
+        <section id="modalDetalhes" class="modal escondido">
+         <div class="modal-conteudo">
+        <button id="fecharModal" class="fechar">X</button><img
+                    id="imagemEvento"
+                    src=""
+                    alt="">
+                <h2 id="tituloEvento"></h2>
+                <p id="descricaoEvento"></p>
+                <p>
+                    <strong>Local:</strong>
+                    <span id="localEvento"></span>
+                </p>
+                <p>
+                    <strong>Data:</strong>
+                    <span id="dataEvento"></span>
+                </p>
+                <p>
+                    <strong>Capacidade:</strong>
+                    <span id="capacidadeEvento"></span>
+                </p>
+                <p>
+                    <strong>Status:</strong>
+                    <span id="statusEvento"></span>
+                </p>
+            </div>
+        </section>
+
+     
+
+        <section id="modalFormulario" class="modal escondido">
+            <div class="modal-conteudo">
+                <button id="fecharFormulario" class="fechar">X</button>
+                <h2>Cadastrar Evento</h2>
+                <form id="formEvento">
+                    <input
+                        type="text"
+                        id="titulo"
+                        placeholder="Título"
+                        required
+                >
+                    <textarea
+                        id="descricao"
+                        placeholder="Descrição"
+                        required
+                    ></textarea>
+                    <input
+                        type="text"
+                        id="local"
+                        placeholder="Local"
+                        required
+                    >
+                    <input
+                        type="date"
+                        id="data"
+                        required
+                    >
+                    <input
+                        type="number"
+                        id="capacidade"
+                        placeholder="Capacidade"
+                        required
+                    >
+                    <input
+                        type="file"
+                        id="imagem"
+                        accept="image/*"
+                    >
+                    <button type="submit">
+                        Salvar Evento
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
