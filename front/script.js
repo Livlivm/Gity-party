@@ -22,34 +22,29 @@ const form =
 document.getElementById("formEvento");
 
 
-// ABRIR FORM
+
 
 abrirFormulario.addEventListener("click", () => {
-
     modalFormulario.classList.remove("escondido");
 
 });
 
 
-// FECHAR FORM
+
 
 fecharFormulario.addEventListener("click", () => {
-
     modalFormulario.classList.add("escondido");
 
 });
 
 
-// FECHAR DETALHES
 
 fecharModal.addEventListener("click", () => {
-
     modalDetalhes.classList.add("escondido");
 
 });
 
 
-// CARREGAR EVENTOS
 
 async function carregarEventos(){
 
@@ -116,7 +111,7 @@ async function carregarEventos(){
 }
 
 
-// ABRIR DETALHES
+
 
 async function abrirDetalhes(id){
 
@@ -161,7 +156,7 @@ async function abrirDetalhes(id){
 }
 
 
-// CADASTRAR EVENTO
+
 
 form.addEventListener("submit", async (e) => {
 
@@ -189,7 +184,6 @@ form.addEventListener("submit", async (e) => {
 
         };
 
-        // CADASTRAR EVENTO
 
         const resposta =
         await fetch(`${API}/cadastrar`, {
@@ -207,7 +201,7 @@ form.addEventListener("submit", async (e) => {
         const eventoCriado =
         await resposta.json();
 
-        // UPLOAD IMAGEM
+       
 
         const imagem =
         document.getElementById("imagem").files[0];
@@ -254,7 +248,7 @@ form.addEventListener("submit", async (e) => {
 });
 
 
-// EXCLUIR EVENTO
+
 
 async function excluirEvento(id){
 
@@ -299,6 +293,6 @@ async function excluirEvento(id){
 }
 
 
-// INICIAR
+
 
 carregarEventos();
