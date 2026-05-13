@@ -1,44 +1,77 @@
 const API = "http://localhost:3000/eventos";
 
-const listaEventos = document.getElementById("lista-eventos");
-const modalDetalhes = document.getElementById("modalDetalhes");
-const modalFormulario = document.getElementById("modalFormulario");
-const abrirFormulario = document.getElementById("abrirFormulario");
-const fecharFormulario = document.getElementById("fecharFormulario");
-const fecharModal = document.getElementById("fecharModal");
-const form = document.getElementById("formEvento");
+const listaEventos =
+document.getElementById("lista-eventos");
+
+const modalDetalhes =
+document.getElementById("modalDetalhes");
+
+const modalFormulario =
+document.getElementById("modalFormulario");
+
+const abrirFormulario =
+document.getElementById("abrirFormulario");
+
+const fecharFormulario =
+document.getElementById("fecharFormulario");
+
+const fecharModal =
+document.getElementById("fecharModal");
+
+const form =
+document.getElementById("formEvento");
 
 
-
+// ABRIR FORM
 
 abrirFormulario.addEventListener("click", () => {
+
     modalFormulario.classList.remove("escondido");
 
-})
+});
 
+
+// FECHAR FORM
 
 fecharFormulario.addEventListener("click", () => {
+
     modalFormulario.classList.add("escondido");
 
 });
 
 
+// FECHAR DETALHES
+
 fecharModal.addEventListener("click", () => {
+
     modalDetalhes.classList.add("escondido");
 
 });
 
 
-async function carregarEventos(){
-    try {
-     const resposta = await fetch(`${API}/listar`);
-     const eventos = await resposta.json();
-      listaEventos.innerHTML = "";
-    eventos.forEach(evento => {
+// CARREGAR EVENTOS
 
-            const data = new Date(
-                evento.data_evento
-            ).toLocaleDateString("pt-BR");
+async function carregarEventos(){
+
+    try {
+
+        const resposta =
+        await fetch(
+
+            `${API}/listar?time=${Date.now()}`
+
+        );
+
+        const eventos =
+        await resposta.json();
+
+        listaEventos.innerHTML = "";
+
+        eventos.forEach(evento => {
+
+            const data =
+            new Date(evento.data_evento)
+            .toLocaleDateString("pt-BR");
 
             listaEventos.innerHTML += `
 
@@ -49,17 +82,21 @@ async function carregarEventos(){
                         onclick="abrirDetalhes(${evento.id})"
                     >
 
-                    <h3 onclick="abrirDetalhes(${evento.id})">
+                    <h3
+                        onclick="abrirDetalhes(${evento.id})"
+                    >
                         ${evento.titulo}
                     </h3>
 
-                    <p onclick="abrirDetalhes(${evento.id})">
+                    <p
+                        onclick="abrirDetalhes(${evento.id})"
+                    >
                         ${data}
                     </p>
 
                     <button
                         class="btn-excluir"
-                        onclick="excluirEvento(${evento.id})"
+                        onclick="event.stopPropagation(); excluirEvento(${evento.id})"
                     >
                         Excluir Evento
                     </button>
@@ -78,18 +115,41 @@ async function carregarEventos(){
 
 }
 
+
+// ABRIR DETALHES
+
 async function abrirDetalhes(id){
+
     try {
-        const resposta = await fetch(`${API}/buscar/${id}`);
-        const evento = await resposta.json();
+
+        const resposta =
+        await fetch(`${API}/buscar/${id}`);
+
+        const evento =
+        await resposta.json();
+
         document.getElementById("imagemEvento").src =
         `http://localhost:3000/eventos/buscar/imagem/${evento.id}`;
-         document.getElementById("tituloEvento").innerText =evento.titulo;
-         document.getElementById("descricaoEvento").innerText =evento.descricao;
-        document.getElementById("localEvento").innerText = evento.local;
-        document.getElementById("dataEvento").innerText =new Date(evento.data_evento).toLocaleDateString("pt-BR");
-        document.getElementById("capacidadeEvento").innerText =evento.capacidade_max;
-        document.getElementById("statusEvento").innerText =evento.status;
+
+        document.getElementById("tituloEvento").innerText =
+        evento.titulo;
+
+        document.getElementById("descricaoEvento").innerText =
+        evento.descricao;
+
+        document.getElementById("localEvento").innerText =
+        evento.local;
+
+        document.getElementById("dataEvento").innerText =
+        new Date(evento.data_evento)
+        .toLocaleDateString("pt-BR");
+
+        document.getElementById("capacidadeEvento").innerText =
+        evento.capacidade_max;
+
+        document.getElementById("statusEvento").innerText =
+        evento.status;
+
         modalDetalhes.classList.remove("escondido");
 
     } catch (erro) {
@@ -99,23 +159,43 @@ async function abrirDetalhes(id){
     }
 
 }
+
+
+// CADASTRAR EVENTO
+
 form.addEventListener("submit", async (e) => {
+
     e.preventDefault();
+
     try {
 
         const novoEvento = {
-            titulo: document.getElementById("titulo").value,
-            descricao: document.getElementById("descricao").value,
-            local: document.getElementById("local").value,
-            data_evento: document.getElementById("data").value,
-            capacidade_max: Number(
-                document.getElementById("capacidade").value)
-            };
 
-        
+            titulo:
+            document.getElementById("titulo").value,
 
-        const resposta = await fetch(`${API}/cadastrar`, {
+            descricao:
+            document.getElementById("descricao").value,
+
+            local:
+            document.getElementById("local").value,
+
+            data_evento:
+            document.getElementById("data").value,
+
+            capacidade_max:Number(
+                document.getElementById("capacidade").value
+            )
+
+        };
+
+        // CADASTRAR EVENTO
+
+        const resposta =
+        await fetch(`${API}/cadastrar`, {
+
             method:"POST",
+
             headers:{
                 "Content-Type":"application/json"
             },
@@ -123,28 +203,43 @@ form.addEventListener("submit", async (e) => {
             body:JSON.stringify(novoEvento)
 
         });
-        const eventoCriado = await resposta.json();
 
-        // ENVIAR IMAGEM
-      const imagem = document.getElementById("imagem").files[0];
-       if(imagem){
-      const formData = new FormData();
-        formData.append("imagem", imagem);
-       await fetch(
+        const eventoCriado =
+        await resposta.json();
+
+        // UPLOAD IMAGEM
+
+        const imagem =
+        document.getElementById("imagem").files[0];
+
+        if(imagem){
+
+            const formData =
+            new FormData();
+
+            formData.append(
+                "imagem",
+                imagem
+            );
+
+            await fetch(
+
                 `${API}/cadastrar/imagem/${eventoCriado.id}`,
+
                 {
                     method:"POST",
                     body:formData
                 }
+
             );
 
         }
 
         alert("Evento cadastrado!");
 
-        modalFormulario.classList.add("escondido");
-
         form.reset();
+
+        modalFormulario.classList.add("escondido");
 
         carregarEventos();
 
@@ -158,10 +253,13 @@ form.addEventListener("submit", async (e) => {
 
 });
 
+
+// EXCLUIR EVENTO
+
 async function excluirEvento(id){
-    const confirmar = confirm(
-        "Deseja excluir este evento?"
-    );
+
+    const confirmar =
+    confirm("Deseja excluir este evento?");
 
     if(!confirmar){
         return;
@@ -169,22 +267,26 @@ async function excluirEvento(id){
 
     try {
 
-        const resposta = await fetch(
+        const resposta =
+        await fetch(
+
             `${API}/excluir/${id}`,
+
             {
                 method:"DELETE"
             }
+
         );
 
         if(resposta.ok){
 
             alert("Evento excluído!");
 
-            carregarEventos();
+            await carregarEventos();
 
         }else{
 
-            alert("Erro ao excluir");
+            alert("Erro ao excluir evento");
 
         }
 
@@ -192,11 +294,11 @@ async function excluirEvento(id){
 
         console.log(erro);
 
-        alert("Erro no servidor");
-
     }
 
 }
 
+
+// INICIAR
 
 carregarEventos();
